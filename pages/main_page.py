@@ -1,6 +1,5 @@
 from .base_page import BasePage
 from .locators import MainPageLocators
-from .login_page import LoginPage
 
 class MainPage(BasePage):
     def go_to_login_page(self):
@@ -13,4 +12,5 @@ class MainPage(BasePage):
     def go_to_login_page(self):
         login_page = self.browser.find_element(*MainPageLocators.LOGIN_LINK)
         login_page.click()
-        # return LoginPage(browser=self.browser, url=self.url)
+        alert = self.browser.switch_to.alert
+        alert.accept()
