@@ -1,7 +1,16 @@
+import pytest
 from pages.product_page import ProductPage
 import time
-def test_guest_can_add_product_to_basket(browser):
-    link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-shellcoders-handbook_209/?promo=newYear"
+
+base_link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207"
+urls = [f"{base_link}/?promo=offer{num}" for num in range(10)]
+
+
+@pytest.mark.xfail(num="bugged_link")
+@pytest.mark.parametrize('link', urls)
+def test_guest_can_add_product_to_basket(browser, link):
+    browser.delete_all_cookies()
+    browser.get(link)
     page = ProductPage(browser, link)
     page.open()
     page.should_be_add_to_basket()
@@ -9,3 +18,4 @@ def test_guest_can_add_product_to_basket(browser):
     time.sleep(5)
     page.should_show_message()
     page.should_show_basket_value()
+
